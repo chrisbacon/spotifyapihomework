@@ -3,15 +3,24 @@ var doStuffToPage = function(albums) {
 
     var container = document.querySelector('#album');
 
-    albums.filter(function() {
-        return e.name.includes(input.value)
+    albums.filter(function(album) {
+        return album.name.includes(input.value)
     })
 
-    for (var album of albums) {
+
+
+    albums.forEach(function(album) {
+
+        var artistName = album.artists.reduce(function(string, artist) {
+                    return string + artist.name;
+                    }, "");
+
+
         var p = document.createElement('p');
-        p.innerText = album;
-        container.append(p);
-    }
+        p.innerText = album.name + " by " + artistName;
+        
+        container.appendChild(p);
+    })
 }
 
 var handleResponse = function() {
@@ -30,7 +39,7 @@ var makeRequest = function (url, callback) {
 };
 
 var clickHandler = function() {
-    url = "https://api.spotify.com/v1/search?q=christmas&type=album'";
+    url = "https://api.spotify.com/v1/search?q=christmas&type=album";
     makeRequest(url, handleResponse);
 }
 
